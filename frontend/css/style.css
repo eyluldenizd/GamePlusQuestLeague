@@ -1,0 +1,161 @@
+/* ===== RESET & BASE ===== */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    font-family: 'Segoe UI', Arial, sans-serif;
+    background: #001b44;
+    color: white;
+    min-height: 100vh;
+}
+
+/* ===== LAYOUT ===== */
+.container {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+    padding-bottom: 60px;
+}
+
+/* ===== TYPOGRAPHY ===== */
+h1 {
+    color: #ffc72c;
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+}
+
+h2 {
+    color: #ffc72c;
+    font-size: 1.1rem;
+    margin-top: 40px;
+    margin-bottom: 12px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid rgba(255, 199, 44, 0.3);
+}
+
+p {
+    color: #aaa;
+    margin-top: 8px;
+}
+
+/* ===== LINKS ===== */
+a {
+    color: #ffc72c;
+    text-decoration: none;
+}
+
+a:hover {
+    text-decoration: underline;
+}
+
+.back {
+    display: inline-block;
+    margin-bottom: 24px;
+    font-size: 0.9rem;
+}
+
+/* ===== TABLE ===== */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 4px;
+}
+
+th {
+    border-bottom: 2px solid #ffc72c;
+    padding: 10px 12px;
+    text-align: left;
+    font-size: 0.85rem;
+    color: #ffc72c;
+    font-weight: 600;
+}
+
+td {
+    padding: 10px 12px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+    font-size: 0.9rem;
+}
+
+tr:hover td {
+    background: rgba(255, 199, 44, 0.04);
+}
+
+/* ===== METRIC CARDS ===== */
+.metric-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 4px;
+}
+
+.card {
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 199, 44, 0.25);
+    border-radius: 10px;
+    padding: 14px 18px;
+    min-width: 120px;
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+}
+
+.card-label {
+    font-size: 0.72rem;
+    color: #888;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.card-value {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #ffc72c;
+}
+
+/* ===== STREAK BOX ===== */
+.streak-box {
+    display: inline-block;
+    background: rgba(255, 199, 44, 0.08);
+    border: 1px solid rgba(255, 199, 44, 0.4);
+    border-radius: 10px;
+    padding: 12px 20px;
+    font-size: 1.05rem;
+    margin-top: 4px;
+}
+
+/* ===== QUEST CARDS ===== */
+.quest-card {
+    background: rgba(255, 255, 255, 0.04);
+    border-left: 4px solid #ffc72c;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    font-size: 0.88rem;
+    line-height: 1.5;
+}
+
+/* ===== BADGE PILL ===== */
+.badge {
+    display: inline-block;
+    background: #ffc72c;
+    color: #001b44;
+    padding: 5px 14px;
+    border-radius: 20px;
+    margin: 4px 6px 4px 0;
+    font-weight: 700;
+    font-size: 0.85rem;
+}
+
+/* ===== USER META ===== */
+#user-meta {
+    color: #888;
+    font-size: 0.9rem;
+    margin-top: 4px;
+    margin-bottom: 0;
+}

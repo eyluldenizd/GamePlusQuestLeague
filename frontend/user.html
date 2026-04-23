@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <title>Kullanıcı Detayı</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+<div class="container">
+
+    <a href="index.html" class="back">← Dashboard'a Dön</a>
+
+    <h1 id="username">Yükleniyor...</h1>
+    <p id="user-meta"></p>
+
+    <h2>📊 Bugünkü Metrikler</h2>
+    <div id="today" class="metric-grid"></div>
+
+    <h2>📈 Son 7 Gün</h2>
+    <div id="last7" class="metric-grid"></div>
+
+    <h2>🔥 Streak</h2>
+    <div id="streak"></div>
+
+    <h2>🎯 Görev Sonuçları</h2>
+    <div id="quests"></div>
+
+    <h2>💰 Puan Defteri</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Puan</th>
+                <th>Kaynak</th>
+                <th>Referans</th>
+            </tr>
+        </thead>
+        <tbody id="ledger"></tbody>
+    </table>
+
+    <h2>🏅 Rozetler</h2>
+    <div id="badges"></div>
+
+    <h2>🔔 Bildirimler</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Tarih</th>
+                <th>Kanal</th>
+                <th>Mesaj</th>
+            </tr>
+        </thead>
+        <tbody id="notifications"></tbody>
+    </table>
+
+</div>
+
+<script src="js/config.js"></script>
+<script src="js/user.js"></script>
+
+</body>
+</html>
