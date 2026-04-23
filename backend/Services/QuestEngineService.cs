@@ -59,6 +59,9 @@ public class QuestEngineService
             };
             _db.QuestAwards.Add(award);
 
+            // KRİTİK DOKUNUŞ: Önce ödülü kaydet ki Ledger hata vermesin
+            await _db.SaveChangesAsync();
+
             // PointsLedger kaydet
             var ledgerId = $"L-{DateTime.UtcNow.Ticks % 100000}";
             _db.PointsLedger.Add(new PointsLedger
@@ -67,7 +70,7 @@ public class QuestEngineService
                 UserId = state.UserId,
                 PointsDelta = selected.RewardPoints,
                 Source = "QUEST_REWARD",
-                SourceRef = awardId,
+                SourceRef = award.AwardId,
                 CreatedAt = timestamp
             });
 
