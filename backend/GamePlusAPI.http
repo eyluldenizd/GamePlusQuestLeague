@@ -1,0 +1,6 @@
+@GamePlusAPI_HostAddress = http://localhost:5051
+
+GET {{GamePlusAPI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
