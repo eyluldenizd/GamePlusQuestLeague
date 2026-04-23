@@ -1,6 +1,66 @@
-@GamePlusAPI_HostAddress = http://localhost:5051
+﻿@GamePlusAPI_HostAddress = https://localhost:7063
 
-GET {{GamePlusAPI_HostAddress}}/weatherforecast/
+### ── LEADERBOARD ──────────────────────────────────────────
+
+GET {{GamePlusAPI_HostAddress}}/api/leaderboard
+Accept: application/json
+
+###
+
+### ── USERS ────────────────────────────────────────────────
+
+# Tüm kullanıcılar
+GET {{GamePlusAPI_HostAddress}}/api/users
+Accept: application/json
+
+###
+
+# Tek kullanıcı state (U1 örneği)
+GET {{GamePlusAPI_HostAddress}}/api/users/U1/state
+Accept: application/json
+
+###
+
+# Kullanıcı görev kazanımları
+GET {{GamePlusAPI_HostAddress}}/api/users/U1/quests
+Accept: application/json
+
+###
+
+# Kullanıcı puan defteri
+GET {{GamePlusAPI_HostAddress}}/api/users/U1/ledger
+Accept: application/json
+
+###
+
+# Kullanıcı rozetleri
+GET {{GamePlusAPI_HostAddress}}/api/users/U1/badges
+Accept: application/json
+
+###
+
+# Kullanıcı bildirimleri
+GET {{GamePlusAPI_HostAddress}}/api/users/U1/notifications
+Accept: application/json
+
+###
+
+### ── QUESTS ───────────────────────────────────────────────
+
+# Tüm aktif görevler
+GET {{GamePlusAPI_HostAddress}}/api/quests
+Accept: application/json
+
+###
+
+# Görev motorunu bugün için çalıştır
+POST {{GamePlusAPI_HostAddress}}/api/quests/run
+Accept: application/json
+
+###
+
+# Görev motorunu belirli bir tarih için çalıştır
+POST {{GamePlusAPI_HostAddress}}/api/quests/run?date=2026-03-12
 Accept: application/json
 
 ###
