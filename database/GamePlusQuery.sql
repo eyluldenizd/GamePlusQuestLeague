@@ -1,6 +1,6 @@
--- ============================================================
---  GamePlus Quest League – SQL Server Database Script
---  Tüm tablolar, foreign key'ler, index'ler ve seed data
+ï»¿-- ============================================================
+--  GamePlus Quest League â€“ SQL Server Database Script
+--  TÃ¼m tablolar, foreign key'ler, index'ler ve seed data
 -- ============================================================
 
 -- ============================================================
@@ -16,7 +16,7 @@ CREATE TABLE Users (
 GO
 
 INSERT INTO Users (user_id, name, city, segment) VALUES
-('U1', N'Ayþe',  N'Istanbul', 'STUDENT'),
+('U1', N'AyÅŸe',  N'Istanbul', 'STUDENT'),
 ('U2', N'Ali',   N'Ankara',   'STUDENT'),
 ('U3', N'Deniz', N'Izmir',    'STUDENT'),
 ('U4', N'Mert',  N'Bursa',    'YOUNG_PRO'),
@@ -98,18 +98,18 @@ CREATE TABLE Quests (
     quest_type  NVARCHAR(20)  NOT NULL CHECK (quest_type IN ('DAILY','WEEKLY','STREAK','SYSTEM')),
     condition   NVARCHAR(500) NOT NULL,   -- human-readable, evaluated in C# engine
     reward_points INT         NOT NULL DEFAULT 0,
-    priority    INT           NOT NULL,   -- küçük = daha yüksek öncelik
+    priority    INT           NOT NULL,   -- kÃ¼Ã§Ã¼k = daha yÃ¼ksek Ã¶ncelik
     is_active   BIT           NOT NULL DEFAULT 1
 );
 GO
 
 INSERT INTO Quests (quest_id, quest_name, quest_type, condition, reward_points, priority, is_active) VALUES
-('Q-01', N'Günlük Giriþ',       'DAILY',   'login_count_today >= 1',      50,  5, 1),
+('Q-01', N'GÃ¼nlÃ¼k GiriÅŸ',       'DAILY',   'login_count_today >= 1',      50,  5, 1),
 ('Q-02', N'Kesintisiz Seri',     'STREAK',  'login_streak_days >= 3',     150,  4, 1),
-('Q-03', N'PvP Ustasý',          'DAILY',   'pvp_wins_today >= 3',        200,  2, 1),
-('Q-04', N'Coop Takým Oyunu',    'DAILY',   'coop_minutes_today >= 60',   180,  3, 1),
-('Q-05', N'Haftalýk Maraton',    'WEEKLY',  'play_minutes_7d >= 600',     500,  6, 1),
-('Q-06', N'Harcamaya Ödül',      'WEEKLY',  'topup_try_7d >= 200',        250,  7, 1);
+('Q-03', N'PvP UstasÄ±',          'DAILY',   'pvp_wins_today >= 3',        200,  2, 1),
+('Q-04', N'Coop TakÄ±m Oyunu',    'DAILY',   'coop_minutes_today >= 60',   180,  3, 1),
+('Q-05', N'HaftalÄ±k Maraton',    'WEEKLY',  'play_minutes_7d >= 600',     500,  6, 1),
+('Q-06', N'Harcamaya Ã–dÃ¼l',      'WEEKLY',  'topup_try_7d >= 200',        250,  7, 1);
 GO
 
 -- ============================================================
@@ -119,19 +119,19 @@ CREATE TABLE Badges (
     badge_id         NVARCHAR(10)  NOT NULL PRIMARY KEY,
     badge_name       NVARCHAR(100) NOT NULL,
     condition        NVARCHAR(200) NOT NULL,
-    min_points       INT           NOT NULL,  -- eþik sayýsal olarak da saklanýr
+    min_points       INT           NOT NULL,  -- eÅŸik sayÄ±sal olarak da saklanÄ±r
     level            INT           NOT NULL
 );
 GO
 
 INSERT INTO Badges (badge_id, badge_name, condition, min_points, level) VALUES
 ('B-01', N'Bronz Oyuncu', 'total_points >= 300',  300,  1),
-('B-02', N'Gümüþ Oyuncu', 'total_points >= 800',  800,  2),
-('B-03', N'Altýn Oyuncu',  'total_points >= 1500', 1500, 3);
+('B-02', N'GÃ¼mÃ¼ÅŸ Oyuncu', 'total_points >= 800',  800,  2),
+('B-03', N'AltÄ±n Oyuncu',  'total_points >= 1500', 1500, 3);
 GO
 
 -- ============================================================
--- 6. QUEST AWARDS  (çakýþma sonrasý kazanýlan ödüller)
+-- 6. QUEST AWARDS  (Ã§akÄ±ÅŸma sonrasÄ± kazanÄ±lan Ã¶dÃ¼ller)
 -- ============================================================
 CREATE TABLE QuestAwards (
     award_id          NVARCHAR(10)   NOT NULL PRIMARY KEY,
@@ -144,7 +144,7 @@ CREATE TABLE QuestAwards (
     [timestamp]       DATETIME2      NOT NULL DEFAULT GETUTCDATE(),
     CONSTRAINT FK_QA_User  FOREIGN KEY (user_id)        REFERENCES Users(user_id),
     CONSTRAINT FK_QA_Quest FOREIGN KEY (selected_quest) REFERENCES Quests(quest_id),
-    CONSTRAINT UQ_QA_UserDate UNIQUE (user_id, as_of_date)  -- günde 1 ödül kuralý
+    CONSTRAINT UQ_QA_UserDate UNIQUE (user_id, as_of_date)  -- gÃ¼nde 1 Ã¶dÃ¼l kuralÄ±
 );
 GO
 
@@ -232,18 +232,18 @@ CREATE TABLE Notifications (
 GO
 
 INSERT INTO Notifications (notification_id, user_id, channel, message, sent_at) VALUES
-('N-400', 'U1', 'BiP', N'Kazaným: Q-02 görevi tamamlandý. +150 puan.', '2026-03-12T21:00:00Z'),
-('N-401', 'U2', 'BiP', N'Kazaným: Q-02 görevi tamamlandý. +150 puan.', '2026-03-12T20:56:00Z'),
-('N-402', 'U3', 'BiP', N'Kazaným: Q-04 görevi tamamlandý. +180 puan.', '2026-03-12T20:52:00Z'),
-('N-403', 'U4', 'BiP', N'Kazaným: Q-02 görevi tamamlandý. +150 puan.', '2026-03-12T20:48:00Z'),
-('N-404', 'U5', 'BiP', N'Kazaným: Q-03 görevi tamamlandý. +200 puan.', '2026-03-12T20:44:00Z');
+('N-400', 'U1', 'BiP', N'KazanÄ±m: Q-02 gÃ¶revi tamamlandÄ±. +150 puan.', '2026-03-12T21:00:00Z'),
+('N-401', 'U2', 'BiP', N'KazanÄ±m: Q-02 gÃ¶revi tamamlandÄ±. +150 puan.', '2026-03-12T20:56:00Z'),
+('N-402', 'U3', 'BiP', N'KazanÄ±m: Q-04 gÃ¶revi tamamlandÄ±. +180 puan.', '2026-03-12T20:52:00Z'),
+('N-403', 'U4', 'BiP', N'KazanÄ±m: Q-02 gÃ¶revi tamamlandÄ±. +150 puan.', '2026-03-12T20:48:00Z'),
+('N-404', 'U5', 'BiP', N'KazanÄ±m: Q-03 gÃ¶revi tamamlandÄ±. +200 puan.', '2026-03-12T20:44:00Z');
 GO
 
 -- ============================================================
--- VIEWS  (C# backend bunlarý kullanabilir)
+-- VIEWS  (C# backend bunlarÄ± kullanabilir)
 -- ============================================================
 
--- Kullanýcý toplam puaný – daima ledger'dan türetilir
+-- KullanÄ±cÄ± toplam puanÄ± â€“ daima ledger'dan tÃ¼retilir
 CREATE VIEW vw_UserTotalPoints AS
     SELECT user_id, SUM(points_delta) AS total_points
     FROM PointsLedger
@@ -252,13 +252,13 @@ GO
 
 -- ============================================================
 -- USER STATE VIEW
--- ActivityEvents'ten as_of_date = bugün varsayýmýyla hesaplanýr.
--- C# backend'den parametre göndermek için SSMS'de direkt sorgu
--- veya sp_UserState stored procedure kullanabilirsin (aþaðýda var).
+-- ActivityEvents'ten as_of_date = bugÃ¼n varsayÄ±mÄ±yla hesaplanÄ±r.
+-- C# backend'den parametre gÃ¶ndermek iÃ§in SSMS'de direkt sorgu
+-- veya sp_UserState stored procedure kullanabilirsin (aÅŸaÄŸÄ±da var).
 -- ============================================================
 CREATE VIEW vw_UserState AS
 WITH max_dates AS (
-    -- Her kullanýcýnýn en son aktivite tarihi
+    -- Her kullanÄ±cÄ±nÄ±n en son aktivite tarihi
     SELECT user_id, MAX([date]) AS max_date
     FROM ActivityEvents
     GROUP BY user_id
@@ -280,7 +280,7 @@ today_events AS (
     GROUP BY ae.user_id, md.max_date
 ),
 streak_calc AS (
-    -- Her kullanýcý için en son tarihten geriye ardýþýk login günü sayýsý
+    -- Her kullanÄ±cÄ± iÃ§in en son tarihten geriye ardÄ±ÅŸÄ±k login gÃ¼nÃ¼ sayÄ±sÄ±
     SELECT
         ae.user_id,
         ae.[date],
@@ -293,7 +293,7 @@ streak_calc AS (
 streak_final AS (
     SELECT user_id, COUNT(*) AS login_streak_days
     FROM streak_calc
-    WHERE days_back = rn - 1   -- ardýþýk günler: fark ile sýra numarasý eþleþiyor
+    WHERE days_back = rn - 1   -- ardÄ±ÅŸÄ±k gÃ¼nler: fark ile sÄ±ra numarasÄ± eÅŸleÅŸiyor
     GROUP BY user_id
 )
 SELECT
@@ -330,7 +330,7 @@ CREATE VIEW vw_Leaderboard AS
     GROUP BY u.user_id, u.name;
 GO
 
--- Kullanýcý kazanýlan rozetler
+-- KullanÄ±cÄ± kazanÄ±lan rozetler
 CREATE VIEW vw_UserBadges AS
     SELECT ba.user_id, u.name, b.badge_name, b.level, ba.awarded_at
     FROM BadgeAwards ba
@@ -339,7 +339,7 @@ CREATE VIEW vw_UserBadges AS
 GO
 
 -- ============================================================
--- STORED PROCEDURE: Badge engine – C# yerine SQL'den de çaðrýlabilir
+-- STORED PROCEDURE: Badge engine â€“ C# yerine SQL'den de Ã§aÄŸrÄ±labilir
 -- ============================================================
 CREATE PROCEDURE sp_AssignBadges
     @as_of_date DATE = NULL
@@ -348,7 +348,7 @@ BEGIN
     SET NOCOUNT ON;
     IF @as_of_date IS NULL SET @as_of_date = CAST(GETUTCDATE() AS DATE);
 
-    -- Her kullanýcý için eþiði geçen rozetleri ekle (zaten varsa atla)
+    -- Her kullanÄ±cÄ± iÃ§in eÅŸiÄŸi geÃ§en rozetleri ekle (zaten varsa atla)
     INSERT INTO BadgeAwards (badge_award_id, user_id, badge_id, awarded_at)
     SELECT
         'BA-' + u.user_id + '-' + b.badge_id,
@@ -382,4 +382,28 @@ SELECT 'BadgeAwards',               COUNT(*)         FROM BadgeAwards;
 GO
 
 SELECT * FROM vw_Leaderboard;
+GO
+-- ============================================================
+-- BadgeAwards seed data (orijinal SQL'e eklenecek)
+-- TÃ¼m kullanÄ±cÄ±lar 150+ puan â†’ B-01 Bronz Oyuncu rozeti kazanÄ±r
+-- ============================================================
+
+-- Ã–nce mevcut BadgeAwards tablosunu kontrol et, yoksa ekle:
+INSERT INTO BadgeAwards (badge_award_id, user_id, badge_id, awarded_at)
+SELECT 'BA-' + u.user_id + '-' + b.badge_id, u.user_id, b.badge_id, GETUTCDATE()
+FROM Users u
+JOIN vw_UserTotalPoints tp ON u.user_id = tp.user_id
+CROSS JOIN Badges b
+WHERE tp.total_points >= b.min_points
+  AND NOT EXISTS (
+      SELECT 1 FROM BadgeAwards ba
+      WHERE ba.user_id = u.user_id AND ba.badge_id = b.badge_id
+  );
+GO
+
+-- Sonucu kontrol et:
+SELECT ba.badge_award_id, ba.user_id, b.badge_name, b.level, ba.awarded_at
+FROM BadgeAwards ba
+JOIN Badges b ON ba.badge_id = b.badge_id
+ORDER BY ba.user_id, b.level;
 GO
