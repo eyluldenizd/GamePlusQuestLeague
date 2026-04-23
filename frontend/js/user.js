@@ -22,39 +22,47 @@ async function loadUserDetail() {
         const stateRes = await fetch(`${BASE_URL}/api/users/${userId}/state`);
         const state = await stateRes.json();
 
-        document.getElementById("username").innerText = `${state.name} (${state.user_id})`;
+        // C# → JSON camelCase dönüşümü:
+        // UserId → userId, Name → name, City → city, Segment → segment
+        // LoginCountToday → loginCountToday, PlayMinutesToday → playMinutesToday vb.
+
+        document.getElementById("username").innerText = `${state.name} (${state.userId})`;
         document.getElementById("user-meta").innerText = `${state.city ?? ""} · ${state.segment ?? ""}`;
 
         document.getElementById("today").innerHTML =
-            metricCard("Login", state.login_count_today) +
-            metricCard("Oynama (dk)", state.play_minutes_today) +
-            metricCard("PvP Kazanma", state.pvp_wins_today) +
-            metricCard("Coop (dk)", state.coop_minutes_today) +
-            metricCard("Topup", state.topup_try_today);
+            metricCard("Login",         state.loginCountToday) +
+            metricCard("Oynama (dk)",   state.playMinutesToday) +
+            metricCard("PvP Kazanma",   state.pvpWinsToday) +
+            metricCard("Coop (dk)",     state.coopMinutesToday) +
+            metricCard("Topup",         state.topupTryToday);
 
         document.getElementById("last7").innerHTML =
-            metricCard("Oynama 7g (dk)", state.play_minutes_7d) +
-            metricCard("Topup 7g", state.topup_try_7d) +
-            metricCard("Login 7g", state.logins_7d);
+            metricCard("Oynama 7g (dk)", state.playMinutes7d) +
+            metricCard("Topup 7g",       state.topupTry7d) +
+            metricCard("Login 7g",       state.logins7d);
 
         document.getElementById("streak").innerHTML = `
             <div class="streak-box">
-                🔥 <strong>${state.login_streak_days}</strong> gün kesintisiz giriş
+                🔥 <strong>${state.loginStreakDays}</strong> gün kesintisiz giriş
             </div>`;
 
         // --- 2. Quest Awards ---
         const questRes = await fetch(`${BASE_URL}/api/users/${userId}/quests`);
         const quests = await questRes.json();
 
+        // C# → JSON: AsOfDate → asOfDate, SelectedQuest → selectedQuest,
+        //             RewardPoints → rewardPoints, TriggeredQuests → triggeredQuests,
+        //             SuppressedQuests → suppressedQuests
+
         if (quests.length === 0) {
             document.getElementById("quests").innerHTML = "<p>Henüz görev kazanımı yok.</p>";
         } else {
             document.getElementById("quests").innerHTML = quests.map(q => `
                 <div class="quest-card">
-                    <div>📅 ${q.as_of_date}</div>
-                    <div>✅ Seçilen: <strong>${q.selected_quest}</strong> (+${q.reward_points} puan)</div>
-                    <div>🎯 Tetiklenen: ${q.triggered_quests}</div>
-                    <div>🚫 Baskılanan: ${q.suppressed_quests || "—"}</div>
+                    <div>📅 ${q.asOfDate}</div>
+                    <div>✅ Seçilen: <strong>${q.selectedQuest}</strong> (+${q.rewardPoints} puan)</div>
+                    <div>🎯 Tetiklenen: ${q.triggeredQuests}</div>
+                    <div>🚫 Baskılanan: ${q.suppressedQuests || "—"}</div>
                 </div>`).join("");
         }
 
@@ -62,33 +70,41 @@ async function loadUserDetail() {
         const ledgerRes = await fetch(`${BASE_URL}/api/users/${userId}/ledger`);
         const ledger = await ledgerRes.json();
 
+        // C# → JSON: CreatedAt → createdAt, PointsDelta → pointsDelta,
+        //             Source → source, SourceRef → sourceRef
+
         document.getElementById("ledger").innerHTML = ledger.length === 0
             ? `<tr><td colspan="4">Kayıt yok</td></tr>`
             : ledger.map(l => `
                 <tr>
-                    <td>${l.created_at?.substring(0, 10)}</td>
-                    <td>+${l.points_delta}</td>
+                    <td>${l.createdAt?.substring(0, 10)}</td>
+                    <td>+${l.pointsDelta}</td>
                     <td>${l.source}</td>
-                    <td>${l.source_ref}</td>
+                    <td>${l.sourceRef}</td>
                 </tr>`).join("");
 
         // --- 4. Badges ---
         const badgeRes = await fetch(`${BASE_URL}/api/users/${userId}/badges`);
         const badges = await badgeRes.json();
 
+        // UsersController anonim obje döndürüyor:
+        // { badgeId, badgeName, level, awardedAt }
+
         document.getElementById("badges").innerHTML = badges.length === 0
             ? "<p>Henüz rozet kazanılmadı.</p>"
-            : badges.map(b => `<span class="badge">${b.badge_name}</span>`).join("");
+            : badges.map(b => `<span class="badge">${b.badgeName}</span>`).join("");
 
         // --- 5. Notifications ---
         const notifRes = await fetch(`${BASE_URL}/api/users/${userId}/notifications`);
         const notifs = await notifRes.json();
 
+        // C# → JSON: SentAt → sentAt, Channel → channel, Message → message
+
         document.getElementById("notifications").innerHTML = notifs.length === 0
             ? `<tr><td colspan="3">Bildirim yok</td></tr>`
             : notifs.map(n => `
                 <tr>
-                    <td>${n.sent_at?.substring(0, 10)}</td>
+                    <td>${n.sentAt?.substring(0, 10)}</td>
                     <td>${n.channel}</td>
                     <td>${n.message}</td>
                 </tr>`).join("");

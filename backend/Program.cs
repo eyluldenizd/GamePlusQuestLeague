@@ -1,10 +1,12 @@
-using GamePlusAPI.Data;
+﻿using GamePlusAPI.Data;
 using GamePlusAPI.Services;
 using Microsoft.EntityFrameworkCore;
-using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
+// ASP.NET Core varsayılanı camelCase serialize eder.
+// C# property adı UserId → JSON'da "userId" gelir.
+// Frontend bu kurala göre yazıldı.
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(options =>

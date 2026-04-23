@@ -6,13 +6,14 @@ async function loadLeaderboard() {
         const tbody = document.getElementById("leaderboard-body");
         tbody.innerHTML = "";
 
+        // API'den gelen JSON camelCase: rank, userId, name, totalPoints
         data.slice(0, 10).forEach(row => {
             tbody.innerHTML += `
                 <tr>
                     <td>${row.rank}</td>
-                    <td>${row.user_id}</td>
+                    <td>${row.userId}</td>
                     <td>${row.name ?? "-"}</td>
-                    <td>${row.total_points}</td>
+                    <td>${row.totalPoints}</td>
                 </tr>`;
         });
     } catch (err) {
@@ -28,13 +29,14 @@ async function loadUsers() {
         const tbody = document.getElementById("users-body");
         tbody.innerHTML = "";
 
+        // API'den gelen JSON camelCase: userId, name, totalPoints, loginStreakDays
         data.forEach(user => {
             tbody.innerHTML += `
-                <tr onclick="window.location.href='user.html?user_id=${user.user_id}'" style="cursor:pointer">
-                    <td>${user.user_id}</td>
+                <tr onclick="window.location.href='user.html?user_id=${user.userId}'" style="cursor:pointer">
+                    <td>${user.userId}</td>
                     <td>${user.name ?? "-"}</td>
-                    <td>${user.total_points ?? 0}</td>
-                    <td>🔥 ${user.login_streak_days ?? 0}</td>
+                    <td>${user.totalPoints ?? 0}</td>
+                    <td>🔥 ${user.loginStreakDays ?? 0}</td>
                 </tr>`;
         });
     } catch (err) {
